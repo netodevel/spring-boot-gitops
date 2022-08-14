@@ -14,4 +14,5 @@ class GreetingsController {
     @GetMapping("/hello")
     fun helloArgoCd() = "Hello World ArgoCD"
 
+
 }
