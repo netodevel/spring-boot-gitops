@@ -12,7 +12,7 @@ class GreetingsController {
     fun helloWorld() = "Hello World GitOps + Kustomize + ArgoCD"
 
     @GetMapping("/hello")
-    fun helloArgoCd() = "Hello World ArgoCD"
+    fun helloArgoCd() = "Hello World ArgoCD + K8s"
 
     @GetMapping("/cd")
     fun otherChange() = "CD rock's"
