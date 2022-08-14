@@ -9,4 +9,4 @@ namespace: demo
 images:
 - name: demo
   newName: netodevel/gitops
-  newTag: 3ca5c1366c707612475385990a3c75818860924c
+  newTag: 3004a87940924aae09cc9b3ba3c3362ce250fd0b
