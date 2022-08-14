@@ -10,4 +10,8 @@ class GreetingsController {
 
     @GetMapping
     fun helloWorld() = "Hello World GitOps"
+
+    @GetMapping("/hello")
+    fun helloWorld() = "Hello World ArgoCD"
+
 }
