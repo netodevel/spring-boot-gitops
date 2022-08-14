@@ -35,18 +35,19 @@ jobs:
       - name: Kustomize
         uses: imranismail/setup-kustomize@v1
         with:
-          kustomize_version: v3.6.1
+          kustomize-version: v3.6.1
 
       - name: update k8s
         run: | 
           cd k8s
-          kustomize edit set image demo=netodevel/gitops:${{ github.sa }}
+          kustomize edit set image demo=netodevel/gitops:${{ github.sha }}
           cat kustomization.yaml
 
       - name: commit
         run: | 
           git config --local user.email "josevieira.dev@gmail.com"
           git config --local user.name "netodevel"
+          git add .
           git commit -m "ci: change image tag"
 
       - name: push
