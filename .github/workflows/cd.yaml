@@ -15,7 +15,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: mvn package --batch-mode -DskipTests
       - name: Build docker and push image
         uses: docker/build-push-action@v1.1.0
         with:
