@@ -1,22 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    app: demo
   name: demo
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: demo
-  strategy: {}
   template:
     metadata:
       labels:
         app: demo
     spec:
       containers:
-      - image: netodevel/gitops
-        name: gitops
-        resources: {}
+      - image: demo
+        name: demo
+        ports:
+          - containerPort: 8080

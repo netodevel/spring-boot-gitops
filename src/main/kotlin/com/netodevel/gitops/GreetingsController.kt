@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 class GreetingsController {
 
     @GetMapping
-    fun helloWorld() = "Hello World GitOps"
+    fun helloWorld() = "Hello World GitOps + Kustomize + ArgoCD"
 
     @GetMapping("/hello")
     fun helloArgoCd() = "Hello World ArgoCD"
