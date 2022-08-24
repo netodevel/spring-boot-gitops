@@ -1,6 +1,6 @@
 project:
   name: gitops
-  version: 0.0.2
+  version: 1.1.0
   description: Awesome App
   longDescription: Awesome App
   website: https://acme.com/app
