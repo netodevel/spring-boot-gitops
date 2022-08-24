@@ -17,6 +17,7 @@ class GreetingsController {
     @GetMapping("/cd")
     fun otherChange() = "CD rock's other bla bla"
 
-
+    @GetMapping("/dev")
+    fun developThing() = "i am make this"
 
 }
