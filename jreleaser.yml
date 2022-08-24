@@ -1,0 +1,23 @@
+project:
+  name: gitops
+  version: 0.0.2-SNAPSHOT
+  description: Awesome App
+  longDescription: Awesome App
+  website: https://acme.com/app
+  authors:
+    - Duke
+  license: Apache-2
+  java:
+    groupId: com.netodevel.gitops
+    version: 18
+  extraProperties:
+    inceptionYear: 2022
+
+release:
+  github:
+    owner: netodevel
+
+distributions:
+  gitops:
+    artifacts:
+      - path: target/{{distributionName}}-{{projectVersion}}.jar
