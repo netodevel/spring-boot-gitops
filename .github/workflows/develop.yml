@@ -18,6 +18,9 @@ jobs:
       - name: get last branch name
         run:  export BRANCH_NAME=$(git log --oneline -n 2 | grep -oP "([a-z\d]+[-\/_.]?)*[a-z\d]$" | grep netodevel/ | awk -F "/" '{print $2 "/" $3}')
 
+      - name: get last branch name
+        run:  echo env.BRANCH_NAME
+
       - name: Bump minor version
         if: env.BRANCH_NAME=='feature/test-hacker'
         run: mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT' versions:commit
