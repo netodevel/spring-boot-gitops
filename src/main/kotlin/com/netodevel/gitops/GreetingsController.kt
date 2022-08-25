@@ -23,4 +23,5 @@ class GreetingsController {
     @GetMapping("/bump")
     fun newEndpoint() = "new endpoint"
 
+
 }
