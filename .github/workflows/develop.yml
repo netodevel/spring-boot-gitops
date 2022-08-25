@@ -1,4 +1,4 @@
-name: release
+name: bump version
 on:
   push:
     branches: [development]
@@ -14,8 +14,17 @@ jobs:
           java-version: '18'
           distribution: 'adopt'
           cache: maven
+
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
+      - name: Check output
+        run: echo ${{ steps.vars.outputs.short_ref }}
+
       - name: Bump minor version
         run: mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT' versions:commit
+
       - name: commit
         run: | 
           git config --local user.email "josevieira.dev@gmail.com"
