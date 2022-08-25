@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.netodevel</groupId>
     <artifactId>gitops</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2-SNAPSHOT</version>
     <name>gitops</name>
     <description>Demo project for Spring Boot</description>
     <scm>
@@ -18,7 +18,7 @@
         </connection> <!-- URL HTTP de clone do projeto -->
         <developerConnection>scm:git:https://github.com/netodevel/spring-boot-gitops.git
         </developerConnection> <!-- URL HTTP de clone do projeto -->
-        <tag>1.1.1</tag>
+        <tag>@{project.version}</tag>
     </scm>
     <properties>
         <java.version>18</java.version>
