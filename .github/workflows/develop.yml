@@ -21,4 +21,7 @@ jobs:
           git config --local user.email "josevieira.dev@gmail.com"
           git config --local user.name "netodevel"
           git add pom.xml
-          git commit -m "ci: change image tag"
+          git commit -m "bump(dev): change minor version"
+
+      - name: push
+        uses: ad-m/github-push-action@master
