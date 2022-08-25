@@ -16,7 +16,7 @@ jobs:
           cache: maven
 
       - name: get last branch name
-        run:  export BRANCH_NAME=$(git log --oneline -n 2 | grep -oP "([a-z\d]+[-\/_.]?)*[a-z\d]$" | grep netodevel/ | awk -F "/" '{print $2 "/" $3}')
+        run:  export BRANCH_NAME=$(git log --oneline -n 2 | grep -oP "([a-z\d]+[-\/_.]?)*[a-z\d]$" | grep netodevel/ | awk -F "/" '{print $2 "/" $3}') >> $GITHUB_ENV
 
       - name: get last branch name
         run:  echo env.BRANCH_NAME
