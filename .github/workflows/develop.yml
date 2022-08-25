@@ -15,7 +15,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Bump minor version
-        run: mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT' versions:commi
+        run: mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT' versions:commit
       - name: commit
         run: | 
           git config --local user.email "josevieira.dev@gmail.com"
