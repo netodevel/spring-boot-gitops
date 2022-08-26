@@ -3,11 +3,6 @@ on:
   pull_request:
     branches:
       - development
-    types:
-      - opened
-      - reopened
-      - labeled
-      - unlabeled
 jobs:
   check_labels:
     name: 'Check PR Labels'
