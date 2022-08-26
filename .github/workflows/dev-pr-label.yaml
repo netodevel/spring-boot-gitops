@@ -4,6 +4,7 @@ on:
     branches:
       - development
     types:
+      - opened
       - reopened
       - labeled
       - unlabeled
