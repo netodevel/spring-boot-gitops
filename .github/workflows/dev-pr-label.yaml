@@ -1,12 +1,14 @@
-name: Dev PR Label Checker
+name: 'Dev - PR Label Checker'
 on:
   pull_request:
     branches:
       - development
     types:
+      - opened
       - reopened
       - labeled
       - unlabeled
+      - edited
 jobs:
   check_labels:
     name: 'Check PR Labels'
