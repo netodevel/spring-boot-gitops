@@ -23,5 +23,7 @@ class GreetingsController {
     @GetMapping("/bump")
     fun newEndpoint() = "new endpoint"
 
+    @GetMapping("/xpto")
+    fun xpto() = "xptoooo"
 
 }
