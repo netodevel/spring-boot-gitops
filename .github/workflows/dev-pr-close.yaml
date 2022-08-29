@@ -1,0 +1,48 @@
+name: 'Dev - PR Close'
+on:
+  pull_request:
+    branches:
+      - development
+    types:
+      - closed
+jobs:
+  merge_pr:
+    name: 'PR Merged'
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Set up JDK 18
+        uses: actions/setup-java@v2
+        with:
+          java-version: '18'
+          distribution: 'adopt'
+          cache: maven
+
+      - name: Git config
+        run: |
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+          git config --global user.name "${{ secrets.GH_USER }}"
+
+      - name: Apply version bump (major)
+        if: contains(github.event.pull_request.labels.*.name, 'major')
+        run: echo major uhu
+
+      - name: Apply version bump (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        run: | 
+          mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.0-SNAPSHOT' versions:commit
+          git add pom.xml
+          git commit -m "bump(dev): change minor version"
+
+      - name: Apply version bump (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'patch')
+        run: echo some fix
+
+      - name: push
+        uses: ad-m/github-push-action@master
+        with:
+          branch: development

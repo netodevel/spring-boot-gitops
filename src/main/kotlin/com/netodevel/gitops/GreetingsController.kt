@@ -20,4 +20,10 @@ class GreetingsController {
     @GetMapping("/dev")
     fun developThing() = "i am make this"
 
+    @GetMapping("/bump")
+    fun newEndpoint() = "new endpoint"
+
+    @GetMapping("/xpto")
+    fun xpto() = "xptoooo"
+
 }
