@@ -1,5 +1,13 @@
 name: gitleaks
-on: [pull_request, push, workflow_dispatch]
+on:
+  pull_request:
+    branches:
+      - development
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
 jobs:
   scan:
     name: gitleaks
