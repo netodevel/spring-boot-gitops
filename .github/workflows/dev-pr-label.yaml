@@ -1,15 +1,8 @@
 name: 'Dev - PR Label Checker'
 on:
-  pull_request:
+  push:
     branches:
       - 'release/**'
-    types:
-      - opened
-      - reopened
-      - labeled
-      - unlabeled
-      - edited
-      - synchronize
 jobs:
   check_labels:
     name: 'Check PR Labels'
