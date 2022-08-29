@@ -26,4 +26,7 @@ class GreetingsController {
     @GetMapping("/xpto")
     fun xpto() = "xptoooo"
 
+    @GetMapping("/team2")
+    fun team2() = "team2"
+
 }
