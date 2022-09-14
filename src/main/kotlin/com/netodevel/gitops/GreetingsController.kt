@@ -32,4 +32,10 @@ class GreetingsController {
     @GetMapping("/team2")
     fun team2() = "team2"
 
+    @GetMapping("/teamtwo")
+    fun teamTwoCode() = "Team two"
+
+    @GetMapping("/teamOutOfDate")
+    fun teamOutOfDateMain() = "team outofdate main"
+
 }
