@@ -29,4 +29,7 @@ class GreetingsController {
     @GetMapping("/teamOne")
     fun featureTeamOne() = "TeamOne"
 
+    @GetMapping("/teamtwo")
+    fun teamTwoCode() = "Team two"
+
 }
