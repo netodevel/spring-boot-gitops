@@ -29,4 +29,7 @@ class GreetingsController {
     @GetMapping("/teamOne")
     fun featureTeamOne() = "TeamOne"
 
+    @GetMapping("/teamOutOfDate")
+    fun teamOutOfDateMain() = "team outofdate main"
+
 }
