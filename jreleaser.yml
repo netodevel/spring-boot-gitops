@@ -15,4 +15,8 @@ project:
 release:
   github:
     owner: netodevel
+    changelog:
+      formatted: ALWAYS
+      preset: 'conventional-commits'
+      format: '- {{commitShortHash}} {{commitTitle}}'
 
