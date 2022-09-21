@@ -1,6 +1,5 @@
 project:
   name: gitops
-  version: 1.8.0
   description: Awesome App
   longDescription: Awesome App
   website: https://acme.com/app
@@ -16,8 +15,8 @@ project:
 release:
   github:
     owner: netodevel
+    changelog:
+      formatted: ALWAYS
+      preset: 'conventional-commits'
+      format: '- {{commitShortHash}} {{commitTitle}}'
 
-distributions:
-  gitops:
-    artifacts:
-      - path: target/{{distributionName}}-{{projectVersion}}.jar
