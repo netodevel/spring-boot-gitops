@@ -1,6 +1,5 @@
 project:
   name: gitops
-  version: 1.8.0
   description: Awesome App
   longDescription: Awesome App
   website: https://acme.com/app
@@ -17,7 +16,3 @@ release:
   github:
     owner: netodevel
 
-distributions:
-  gitops:
-    artifacts:
-      - path: target/{{distributionName}}-{{projectVersion}}.jar

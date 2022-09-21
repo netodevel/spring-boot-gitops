@@ -42,7 +42,22 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'patch')
         run: echo some fix
 
-      - name: push
+      - name: Push Bump Version
         uses: ad-m/github-push-action@master
         with:
           branch: development
+
+      - name: Extract Maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - name: Show extracted Maven project version
+        run: echo ${{ steps.project.outputs.version }}
+
+      - name: Run JReleaser
+        uses: jreleaser/release-action@v2
+        with:
+          arguments: full-release
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JRELEASER_PROJECT_VERSION: ${{ steps.project.outputs.version }}
