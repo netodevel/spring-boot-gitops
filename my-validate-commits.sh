@@ -33,9 +33,7 @@ for msg in "${commits_struct[@]}"; do
 done
 
 if [ $all_commits_ok == "true" ]; then
-  echo "aq"
   exit 0
 else
-  echo "here?"
   exit 1
 fi
