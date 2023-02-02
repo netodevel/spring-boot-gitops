@@ -22,16 +22,20 @@ for commit in "${commits[@]}"; do
   fi
 done
 
-all_commits_ok=true
+all_commits_ok="true"
 for msg in "${commits_struct[@]}"; do
   if [[ $msg =~ $pattern ]]; then
     echo "this commit: ${msg} is correct"
   else
     echo "this commit: ${msg} is wrong"
-    all_commits_ok=false
+    all_commits_ok="false"
   fi
 done
 
-if [ all_commits_ok==false ]; then
-   exit 1
+if [ $all_commits_ok == "true" ]; then
+  echo "aq"
+  exit 0
+else
+  echo "here?"
+  exit 1
 fi
