@@ -11,25 +11,4 @@ class GreetingsController {
     @GetMapping
     fun helloWorld() = "Hello World GitOps + Kustomize + ArgoCD"
 
-    @GetMapping("/hello")
-    fun helloArgoCd() = "Hello World ArgoCD + K8s"
-
-    @GetMapping("/cd")
-    fun otherChange() = "CD rock's other bla bla"
-
-    @GetMapping("/dev")
-    fun developThing() = "i am make this"
-
-    @GetMapping("/bump")
-    fun newEndpoint() = "new endpoint"
-
-    @GetMapping("/xpto")
-    fun xpto() = "xptoooo"
-
-    @GetMapping("/teamOne")
-    fun featureTeamOne() = "TeamOne"
-
-    @GetMapping("/teamtwo")
-    fun teamTwoCode() = "Team two"
-
 }
