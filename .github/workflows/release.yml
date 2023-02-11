@@ -1,40 +1,82 @@
-name: Release
+name: 'Release'
 on:
-  push:
-    branches: [staging]
-
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
 jobs:
-  release:
+  merge_pr:
+    name: 'PR Merged'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 18
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '18'
-          distribution: 'adopt'
+          distribution: 'temurin'
           cache: maven
-      - name: Build with Maven
-        run: mvn package --batch-mode -DskipTests
 
+      - name: Extract previous maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: previous-version
 
-      - name: Get Project Version
+      - name: Show extracted previous maven project version
+        run: echo ${{ steps.previous-version.outputs.version }}
 
+      - name: Git config
+        run: |
+          git config --global user.email josevieira.dev@gmail.com
+          git config --global user.name netodevel
 
-      # Create a release
+      - name: Apply version bump (major)
+        if: contains(github.event.pull_request.labels.*.name, 'major')
+        run: |
+          mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.nextMajorVersion}.0.0' versions:commit
+          git add pom.xml
+          git commit -m "chore: change major version"
+
+      - name: Apply version bump (minor)
+        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        run: |
+          mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.${parsedVersion.incrementalVersion}' versions:commit
+          git add pom.xml
+          git commit -m "chore: change minor version"
+
+      - name: Apply version bump (patch)
+        if: contains(github.event.pull_request.labels.*.name, 'patch')
+        run: |
+          mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}' versions:commit
+          git add pom.xml
+          git commit -m "chore: change patch version"
+
+      - name: Extract next maven project version
+        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        id: project
+
+      - name: Show extracted next maven project version
+        run: echo ${{ steps.project.outputs.version }}
+
+      - name: Create git tag
+        run: git tag v${{ steps.project.outputs.version }}
+
+      - name: push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT }}
+          tags: true
+
       - name: Run JReleaser
         uses: jreleaser/release-action@v2
-        env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JRELEASER_PROJECT_VERSION: ${{ }}
-
-      # Persist logs
-
-      - name: JReleaser release output
-        if: always()
-        uses: actions/upload-artifact@v2
         with:
-          name: jreleaser-release
-          path: |
-            out/jreleaser/trace.log
-            out/jreleaser/output.properties
+          arguments: full-release -g
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT }}
+          JRELEASER_PROJECT_VERSION: ${{ steps.project.outputs.version }}
+          JRELEASER_PREVIOUS_TAG_NAME: v${{ steps.previous-version.outputs.version }}
