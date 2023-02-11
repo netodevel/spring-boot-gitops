@@ -3,11 +3,8 @@ on:
   pull_request:
     types:
       - opened
-      - reopened
       - labeled
       - unlabeled
-      - edited
-      - synchronize
 jobs:
   check_labels:
     name: 'Check PR Labels'
