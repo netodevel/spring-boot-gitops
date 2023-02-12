@@ -15,6 +15,6 @@ jobs:
       name: production
       url: 'https://netodevel.com'
     steps:
-      name: "Run k8s manifests to deploy on k8s"
-      run: |
-        echo "Deploy of: ${{ github.event.inputs.tag }}, on profile: ${{ vars.SPRING_PROFILES }}"
+      - name: "Run k8s manifests to deploy on k8s"
+        run: |
+          echo "Deploy of: ${{ github.event.inputs.tag }}, on profile: ${{ vars.SPRING_PROFILES }}"
