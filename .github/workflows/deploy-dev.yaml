@@ -39,7 +39,7 @@ jobs:
     environment:
       name: staging
       url: 'http://dev.myapp.com.br'
-    step:
+    steps:
       - name: Run k8s manifests to staging
         run: |
           echo "Deploy on staging: ${{ github.SPRING_PROFILES }}"
