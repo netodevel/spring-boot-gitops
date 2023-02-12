@@ -1,4 +1,4 @@
-name: Deploy Dev
+name: Continuous Deployment
 on:
   push:
     branches: [main]
@@ -23,33 +23,54 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: netodevel/gitops
           tags: ${{ github.sha }}, latest
+
   deploy:
-    name: Deploy
+    name: Deploy Dev
     needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      - name: Run k8s manifests
+        run: |
+          echo "Deployed on k8s"
 
-      - name: Kustomize
-        uses: imranismail/setup-kustomize@v1
-        with:
-          kustomize-version: v3.6.1
+  deploy-stg:
+    name: Deploy Staging
+    needs: [build]
+    environment:
+      name: staging
+      url: 'http://dev.myapp.com.br'
+    step:
+      - name: Run k8s manifests to staging
+        run: |
+          echo "Deploy on staging: ${{ github.SPRING_PROFILES }}"
 
-      - name: update k8s
-        run: | 
-          cd k8s
-          kustomize edit set image demo=netodevel/gitops:${{ github.sha }}
-          cat kustomization.yaml
-
-      - name: commit
-        run: | 
-          git config --local user.email "josevieira.dev@gmail.com"
-          git config --local user.name "netodevel"
-          git add .
-          git commit -m "ci: change image tag"
-
-      - name: push
-        uses: ad-m/github-push-action@master
-
-    timeout-minutes: 12
+#  deploy:
+#    name: Deploy
+#    needs: [build]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Kustomize
+#        uses: imranismail/setup-kustomize@v1
+#        with:
+#          kustomize-version: v3.6.1
+#
+#      - name: update k8s
+#        run: |
+#          cd k8s
+#          kustomize edit set image demo=netodevel/gitops:${{ github.sha }}
+#          cat kustomization.yaml
+#
+#      - name: commit
+#        run: |
+#          git config --local user.email "josevieira.dev@gmail.com"
+#          git config --local user.name "netodevel"
+#          git add .
+#          git commit -m "ci: change image tag"
+#
+#      - name: push
+#        uses: ad-m/github-push-action@master
+#
+#    timeout-minutes: 12
