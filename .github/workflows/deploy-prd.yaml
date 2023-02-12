@@ -1,0 +1,20 @@
+name: Deployment to production
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'version to tag'
+        required: true
+        default: 'warning'
+
+jobs:
+  deploy:
+    name: Deploy to GKE
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: 'https://netodevel.com'
+    steps:
+      - name: "Run k8s manifests to deploy on k8s"
+        run: |
+          echo "Deploy of: ${{ github.event.inputs.tag }}, on profile: ${{ vars.SPRING_PROFILES }}"
