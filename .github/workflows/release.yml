@@ -1,14 +1,15 @@
 name: 'Release'
 on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
+  workflow_dispatch:
+    inputs:
+      semver:
+        description: 'bump of verision'
+        required: true
+        default: 'minor'
+
 jobs:
-  merge_pr:
-    name: 'PR Merged'
-    if: github.event.pull_request.merged == true
+  create_release:
+    name: 'Create release'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,21 +37,22 @@ jobs:
           git config --global user.name netodevel
 
       - name: Apply version bump (major)
-        if: contains(github.event.pull_request.labels.*.name, 'major')
+        if: contains(github.event.inputs.tag, 'major')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.nextMajorVersion}.0.0' versions:commit
           git add pom.xml
-          git commit -m "chore: change major version"
+          git commit -m "bump(version): Update major "
 
       - name: Apply version bump (minor)
-        if: contains(github.event.pull_request.labels.*.name, 'minor')
+        if: contains(github.event.inputs.tag, 'minor')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.${parsedVersion.incrementalVersion}' versions:commit
           git add pom.xml
-          git commit -m "chore: change minor version"
+          echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+          git commit -m "bump(version): Update minor ${{ steps.project.outputs.version }}"
 
       - name: Apply version bump (patch)
-        if: contains(github.event.pull_request.labels.*.name, 'patch')
+        if: contains(github.event.inputs.tag, 'patch')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}' versions:commit
           git add pom.xml
@@ -65,6 +67,9 @@ jobs:
 
       - name: Create git tag
         run: git tag v${{ steps.project.outputs.version }}
+
+      - name: Create a release branch
+        run: git checkout -b feature/${{ steps.project.outputs.version }}
 
       - name: push
         uses: ad-m/github-push-action@master
