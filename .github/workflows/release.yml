@@ -65,23 +65,21 @@ jobs:
       - name: Show extracted next maven project version
         run: echo ${{ steps.project.outputs.version }}
 
-      - name: Create git tag
-        run: git tag v${{ steps.project.outputs.version }}
-
       - name: Create a release branch
-        run: git checkout -b feature/${{ steps.project.outputs.version }}
+        run: |
+          git checkout -b release/${{ steps.project.outputs.version }}
+          git push origin release/${{ steps.project.outputs.version }}
 
-      - name: push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT }}
-          tags: true
+      - name: Create git tag
+        run: |
+          git tag v${{ steps.project.outputs.version }}
+          git push --tags
 
-      - name: Run JReleaser
-        uses: jreleaser/release-action@v2
-        with:
-          arguments: full-release -g
-        env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT }}
-          JRELEASER_PROJECT_VERSION: ${{ steps.project.outputs.version }}
-          JRELEASER_PREVIOUS_TAG_NAME: v${{ steps.previous-version.outputs.version }}
+#      - name: Run JReleaser
+#        uses: jreleaser/release-action@v2
+#        with:
+#          arguments: full-release -g
+#        env:
+#          JRELEASER_GITHUB_TOKEN: ${{ secrets.PAT }}
+#          JRELEASER_PROJECT_VERSION: ${{ steps.project.outputs.version }}
+#          JRELEASER_PREVIOUS_TAG_NAME: v${{ steps.previous-version.outputs.version }}
