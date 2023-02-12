@@ -1,4 +1,4 @@
-name: Security
+name: PR Sanity Check
 on:
   pull_request:
     branches:
@@ -25,6 +25,9 @@ jobs:
 
       - name: Build with Maven
         run: mvn package --batch-mode -DskipTests
+
+      - name: Tests with maven
+        run: mvn -B clean verify
 
       - name: Build an image from Dockerfile
         run: |
