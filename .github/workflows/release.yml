@@ -12,7 +12,7 @@ jobs:
     name: 'Create release'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           token: ${{ secrets.PAT }}
           fetch-depth: 0
@@ -37,14 +37,14 @@ jobs:
           git config --global user.name netodevel
 
       - name: Apply version bump (major)
-        if: contains(github.event.inputs.tag, 'major')
+        if: contains(github.event.inputs.semver, 'major')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.nextMajorVersion}.0.0' versions:commit
           git add pom.xml
           git commit -m "bump(version): Update major "
 
       - name: Apply version bump (minor)
-        if: contains(github.event.inputs.tag, 'minor')
+        if: contains(github.event.inputs.semver, 'minor')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.nextMinorVersion}.${parsedVersion.incrementalVersion}' versions:commit
           git add pom.xml
@@ -52,7 +52,7 @@ jobs:
           git commit -m "bump(version): Update minor ${{ steps.project.outputs.version }}"
 
       - name: Apply version bump (patch)
-        if: contains(github.event.inputs.tag, 'patch')
+        if: contains(github.event.inputs.semver, 'patch')
         run: |
           mvn --batch-mode build-helper:parse-version versions:set -DnewVersion='${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.nextIncrementalVersion}' versions:commit
           git add pom.xml
