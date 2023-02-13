@@ -42,7 +42,7 @@ jobs:
       url: 'http://dev.myapp.com.br'
     steps:
       - name: Run k8s manifests to staging
-        run: |
+        run: | ## always get latest build of application
           echo "Deploy on staging: ${{ vars.SPRING_PROFILES }}"
 
 #  deploy:
