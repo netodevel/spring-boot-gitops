@@ -1,7 +1,7 @@
 project:
   name: gitops
   description: re-run
-  longDescription: Awesome App
+  longDescription: Poc Trunk based development
   website: https://acme.com/app
   authors:
     - Duke
