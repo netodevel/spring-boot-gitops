@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Run k8s manifests to staging
         run: |
-          echo "Deploy on staging: ${{ github.SPRING_PROFILES }}"
+          echo "Deploy on staging: ${{ vars.SPRING_PROFILES }}"
 
 #  deploy:
 #    name: Deploy
