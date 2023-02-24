@@ -13,7 +13,23 @@ spec:
         app: demo
     spec:
       containers:
-      - image: demo
-        name: demo
-        ports:
-          - containerPort: 8080
+        - image: netodevel/poc-k8s
+          name: demo
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: http
+            initialDelaySeconds: 180
+            timeoutSeconds: 20
+            periodSeconds: 5
+            failureThreshold: 2
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: http
+            initialDelaySeconds: 40
+            timeoutSeconds: 5
+            periodSeconds: 5
+            failureThreshold: 2
