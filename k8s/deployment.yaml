@@ -13,7 +13,7 @@ spec:
         app: demo
     spec:
       containers:
-        - image: netodevel/poc-k8s
+        - image: netodevel/spring-boot-probes
           name: demo
           ports:
             - containerPort: 8080
@@ -21,7 +21,7 @@ spec:
             httpGet:
               path: /actuator/health/liveness
               port: http
-            initialDelaySeconds: 180
+            initialDelaySeconds: 40
             timeoutSeconds: 20
             periodSeconds: 5
             failureThreshold: 2
@@ -33,3 +33,10 @@ spec:
             timeoutSeconds: 5
             periodSeconds: 5
             failureThreshold: 2
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
